@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #450303;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .product-detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .product-image {
+            flex: 1;
+            max-width: 50%;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+
+        .product-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-info {
+            flex: 1;
+            max-width: 50%;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+
+        .product-info h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            color: #f00000;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .star-rating {
+            color: gold;
+            margin-bottom: 20px;
+        }
+
+        .star-rating i {
+            margin: 0 2px;
+        }
+
+        .product-description {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .reviews {
+            margin-top: 40px;
+        }
+
+        .review-item {
+            background-color: #680404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .review-item h4 {
+            margin: 0;
+        }
+
+        .review-item p {
+            margin: 5px 0;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-container button {
+            background-color: #f00000;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .btn-container button:hover {
+            background-color: #d00000;
+        }
+
+        .btn-container .back-button {
+            background-color: #6c757d;
+        }
+
+        .btn-container .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        .quantity-picker {
+            margin-bottom: 20px;
+        }
+
+        .quantity-picker label {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-image, .product-info {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .product-info h1 {
+                font-size: 24px;
+            }
+
+            .product-price {
+                font-size: 20px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-container button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container product-detail-container">
+        <div class="product-image">
+            <img src="" id="productImage" alt="Product Image">
+        </div>
+        <div class="product-info">
+            <h1 id="productName"></h1>
+            <p class="product-price" id="productPrice"></p>
+            <div class="star-rating" id="productRating">
+                <!-- Star rating will be dynamically generated -->
+            </div>
+            <p class="product-description" id="productDescription"></p>
+            <div class="quantity-picker">
+                <label for="quantityPicker">Quantity:</label>
+                <input type="number" id="quantityPicker" min="1" value="1" class="form-control" style="width: auto; display: inline-block;">
+            </div>
+            <div class="btn-container">
+                <button id="buyButton">Buy Now</button>
+                <button id="addToCartButton">Add to Cart</button>
+                <button class="back-button" id="backButton">Back to Products</button>
+            </div>
+        </div>
+    </div>
+    <div class="container reviews">
+        <h2>Customer Reviews</h2>
+        <div class="review-item">
+            <h4>John Doe</h4>
+            <div class="star-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>Great product! Really satisfied with the quality.</p>
+        </div>
+        <div class="review-item">
+            <h4>Jane Smith</h4>
+            <div class="star-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star star-empty"></i>
+                <i class="fas fa-star star-empty"></i>
+            </div>
+            <p>Good value for money. Will purchase again.</p>
+        </div>
+        <!-- More reviews can be added here -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Retrieve product data from localStorage
+            const productData = JSON.parse(localStorage.getItem('selectedProduct'));
+            if (!productData) {
+                alert('Product data not found!');
+                return;
+            }
+
+            function populateProductDetails() {
+                $('#productImage').attr('src', productData.image);
+                $('#productName').text(productData.name);
+                $('#productPrice').text('$' + productData.price);
+                $('#productDescription').text(productData.description);
+
+                // Generate the star rating
+                const starRating = $('#productRating');
+                starRating.empty(); // Clear existing stars
+                for (let i = 0; i < 5; i++) {
+                    const star = $('<i>').addClass(i < productData.rating ? 'fas fa-star' : 'fas fa-star star-empty');
+                    starRating.append(star);
+                }
+            }
+
+            function addToCart() {
+                const quantity = $('#quantityPicker').val();
+                if (quantity && !isNaN(quantity) && quantity > 0) {
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                    // Check if item already exists in the cart
+                    const itemIndex = cartItems.findIndex(item => item.name === productData.name);
+                    
+                    if (itemIndex !== -1) {
+                        // Update quantity if item already exists
+                        cartItems[itemIndex].quantity = parseInt(cartItems[itemIndex].quantity) + parseInt(quantity);
+                    } else {
+                        // Add new item to the cart
+                        cartItems.push({
+                            name: productData.name,
+                            image: productData.image,
+                            price: productData.price,
+                            quantity: quantity
+                        });
+                    }
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    alert('Item added to cart!');
+                    window.location.href = 'cart.html'; // Redirect to cart page
+                } else {
+                    alert('Please enter a valid quantity.');
+                }
+            }
+
+            // Populate the product details
+            populateProductDetails();
+
+            // Handle "Buy Now" button click
+            $('#buyButton').on('click', function() {
+                const quantity = $('#quantityPicker').val();
+                if (quantity && !isNaN(quantity) && quantity > 0) {
+                    const totalPrice = productData.price * quantity;
+                    window.location.href = `checkout.html?productName=${encodeURIComponent(productData.name)}&productPrice=${productData.price}&quantity=${quantity}&totalPrice=${totalPrice}`;
+                } else {
+                    alert('Please enter a valid quantity.');
+                }
+            });
+
+            // Handle "Add to Cart" button click
+            $('#addToCartButton').on('click', function() {
+                addToCart();
+            });
+
+            // Handle "Back to Products" button click
+            $('#backButton').on('click', function() {
+                const referrer = document.referrer;
+                if (referrer.includes('partnership.html')) {
+                    window.location.href = 'partnership.html';
+                } else {
+                    window.location.href = 'products.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

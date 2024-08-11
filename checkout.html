@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #450303;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .checkout-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #680404;
+            border-radius: 8px;
+        }
+
+        .checkout-header {
+            margin-bottom: 20px;
+        }
+
+        .checkout-details {
+            margin-bottom: 20px;
+        }
+
+        .checkout-details p {
+            margin: 5px 0;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            background-color: #f00000;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-container button:hover {
+            background-color: #d00000;
+        }
+
+        .btn-container .back-button {
+            background-color: #6c757d;
+        }
+
+        .btn-container .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container checkout-container">
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+        </div>
+        <div class="checkout-details">
+            <p><strong>Product Name:</strong> <span id="productName"></span></p>
+            <p><strong>Quantity:</strong> <span id="quantity"></span></p>
+            <p><strong>Price per Unit:</strong> $<span id="productPrice"></span></p>
+            <p><strong>Total Price:</strong> $<span id="totalPrice"></span></p>
+        </div>
+        <div class="btn-container">
+            <button id="confirmOrderButton">Confirm Order</button>
+            <button class="back-button" id="backButton">Back to Product</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                productName: params.get('productName'),
+                productPrice: params.get('productPrice'),
+                quantity: params.get('quantity'),
+                totalPrice: params.get('totalPrice')
+            };
+        }
+
+        // Populate checkout details from URL parameters
+        const queryParams = getQueryParams();
+        document.getElementById('productName').innerText = queryParams.productName;
+        document.getElementById('quantity').innerText = queryParams.quantity;
+        document.getElementById('productPrice').innerText = queryParams.productPrice;
+        document.getElementById('totalPrice').innerText = queryParams.totalPrice;
+
+        // Handle "Confirm Order" button click
+        document.getElementById('confirmOrderButton').addEventListener('click', function() {
+            alert('Thank you for your purchase!');
+            window.location.href = 'products.html'; // Redirect to the product list or another page
+        });
+
+        // Handle "Back to Product" button click
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = 'product-detail.html'; // Redirect back to the product detail page
+        });
+    </script>
+</body>
+</html>

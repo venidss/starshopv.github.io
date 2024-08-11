@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #450303;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            background-color: #f00000;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .btn-container button:hover {
+            background-color: #d00000;
+        }
+
+        .remove-button {
+            background-color: #6c757d;
+        }
+
+        .remove-button:hover {
+            background-color: #5a6268;
+        }
+
+        .back-button {
+            background-color: #6c757d;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container cart-container">
+        <h1>Shopping Cart</h1>
+        <div id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="btn-container">
+            <button id="buyAllButton">Buy All</button>
+            <button id="removeAllButton" class="remove-button">Remove All</button>
+            <button id="backButton" class="back-button">Back to Products</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            function renderCartItems() {
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                const cartItemsContainer = $('#cartItems');
+                cartItemsContainer.empty(); // Clear existing items
+
+                if (cartItems.length === 0) {
+                    cartItemsContainer.html('<p>Your cart is empty.</p>');
+                    return;
+                }
+
+                cartItems.forEach((item, index) => {
+                    const cartItemHtml = `
+                        <div class="cart-item" data-index="${index}">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div>
+                                <h4>${item.name}</h4>
+                                <p>Price: $${item.price}</p>
+                                <p>Quantity: ${item.quantity}</p>
+                                <button class="remove-item-button btn btn-danger btn-sm">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.append(cartItemHtml);
+                });
+            }
+
+            // Render cart items on page load
+            renderCartItems();
+
+            // Handle "Buy All" button click
+            $('#buyAllButton').on('click', function() {
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                if (cartItems.length > 0) {
+                    // Calculate total
+                    const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    // Redirect to checkout
+                    window.location.href = `checkout.html?totalPrice=${total}`;
+                    
+                    // Clear cart items after successful checkout
+                    localStorage.removeItem('cartItems');
+                } else {
+                    alert('Your cart is empty.');
+                }
+            });
+
+            // Handle "Remove All" button click
+            $('#removeAllButton').on('click', function() {
+                localStorage.removeItem('cartItems');
+                renderCartItems(); // Refresh cart items display
+            });
+
+            // Handle individual item removal
+            $('#cartItems').on('click', '.remove-item-button', function() {
+                const itemIndex = $(this).closest('.cart-item').data('index');
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                cartItems.splice(itemIndex, 1);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                renderCartItems(); // Refresh cart items display
+            });
+
+            // Handle "Back to Products" button click
+            $('#backButton').on('click', function() {
+                window.location.href = 'products.html'; // Redirect to product list
+            });
+        });
+    </script>
+</body>
+</html>

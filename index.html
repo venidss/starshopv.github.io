@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Star Shop</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #450303;
+            color: #fff;
+        }
+        .navbar, .footer {
+            background-color: #680404;
+        }
+        .carousel-item {
+            height: 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: relative;
+        }
+        /* Dark overlay to darken the images */
+        .carousel-item::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+        }
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            text-align: center;
+        }
+        .carousel-caption h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+        .carousel-caption p {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+        .carousel-caption .btn {
+            font-size: 1.25rem;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        .cart-button {
+            font-size: 1.5rem;
+            color: #fff;
+            background-color: #270f0f;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+        .cart-button:hover {
+            background-color: #a00000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand text-white" href="index.html">Star Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="products.html">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="contact.html">Contact</a>
+                </li>
+            </ul>
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="button" id="searchButton">Search</button>
+                <a href="cart.html" class="cart-button ml-3">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Carousel -->
+    <div id="productCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background-image: url('photo/1695992384827.png');"></div>
+            <div class="carousel-item" style="background-image: url('photo/sardines.jpg');"></div>
+            <div class="carousel-item" style="background-image: url('photo/cartoon-little-star-vector-illustration-design-element-43670778.webp');"></div>
+            <div class="carousel-item" style="background-image: url('photo/CL171-139.webp');"></div>
+            <div class="carousel-item" style="background-image: url('photo/FIVE STAR.jfif.jpg');"></div>
+            <div class="carousel-item" style="background-image: url('photo/images.jfif.jpg');"></div>
+        </div>
+        <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        <div class="carousel-caption">
+            <h1>Star Shop</h1>
+            <p>Welcome to Your One-Stop Shop for Everything!</p>
+            <a href="products.html" class="btn btn-primary">Shop Now</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-white py-4">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p>© 2024 Star Shop Inc. · <a href="#" class="text-white">Privacy</a> · <a href="#" class="text-white">Terms</a></p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#searchButton').on('click', function() {
+                let query = $('#searchInput').val().toLowerCase();
+                window.location.href = `products.html?search=${query}`;
+            });
+        });
+    </script>
+</body>
+</html>
